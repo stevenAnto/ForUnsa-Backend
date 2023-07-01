@@ -39,7 +39,6 @@ class Post(PostBase):
         ordering = ['-likes_count']
         
     def save(self, *args, **kwargs):
-            
         self.slug = slugify(self.title)
         # if have value on img then save with post type social if have value on file then save with post type bibliograpy resource, if don't value on both then social post type
         self.post_type = PostType.objects.get_or_create(name='Social')[0]
