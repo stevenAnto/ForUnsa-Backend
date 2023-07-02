@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
+from apps.forum import MaxWeightValidator
 from . import Base, Tag, Section
 from .post_base import PostBase
 
@@ -26,7 +27,7 @@ class ApprovalStatus(Base):
 class Post(PostBase):
     title = models.CharField(max_length=128)
     content = models.TextField(max_length=255, blank=True)
-    img = models.ImageField(upload_to='posts', blank=True, validators=[])
+    img = models.ImageField(upload_to='posts', blank=True, validators=[MaxWeightValidator])
     file = models.FileField(upload_to='posts', blank=True, validators=[FileExtensionValidator(['pdf', 'doc','docx'])])
     tags = models.ManyToManyField(Tag, blank=True)
     section = models.ForeignKey(Section, on_delete=models.SET_DEFAULT, default=Section.get_default_section) # If deleted section, then set default
