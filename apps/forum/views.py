@@ -8,9 +8,8 @@ from .models.report import Report
 from .models.save_post import SavePost
 from .models.school import School
 from .models.section import Section
-from .models.status import Status
 from .models.tag import Tag
-from .serializers import CommentSerializer, CustomUserSerializer, PostSerializer, ReactPostSerializer, ReactionSerializer, ReportSerializer, SavePostSerializer, SchoolSerializer, SectionSerializer, StatusSerializer, TagSerializer
+from .serializers import CommentSerializer, CustomUserSerializer, PostSerializer, ReactPostSerializer, ReactionSerializer, ReportSerializer, SavePostSerializer, SchoolSerializer, SectionSerializer, TagSerializer
 
 # Create your views here.
 class CommentViewSet(viewsets.ModelViewSet):
@@ -48,10 +47,6 @@ class SchoolViewSet(viewsets.ModelViewSet):
 class SectionViewSet(viewsets.ModelViewSet):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-
-class StatusViewSet(viewsets.ModelViewSet):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
