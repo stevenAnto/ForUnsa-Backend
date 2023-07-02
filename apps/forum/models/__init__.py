@@ -2,7 +2,6 @@ from .base import Base
 from .tag import Tag
 from .section import Section
 from .school import School
-from .status import Status
 from .post import Post, PostType
 from .custom_user import CustomUser
 from .reaction import Reaction

@@ -8,7 +8,6 @@ from .models.report import Report
 from .models.save_post import SavePost
 from .models.school import School
 from .models.section import Section
-from .models.status import Status
 from .models.tag import Tag
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -56,10 +55,6 @@ class SectionSerializer(serializers.ModelSerializer):
         model = Section
         fields = '__all__'
     
-class StatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Status
-        fields = '__all__'
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
