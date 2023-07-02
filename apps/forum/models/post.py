@@ -19,8 +19,18 @@ class PostType(Base):
         
     def get_default_type():
         return PostType.objects.get_or_create(name='Default type')[0].id
+    
+class ApprovalStatus(Base):
+    name = models.CharField(max_length=64, unique=True)
+    
+    class Meta:
+        ordering = ['name']
+        
+    def get_default_status():
+        return ApprovalStatus.objects.get_or_create(name='Default status', id=10)[0].id
+    
 
-class Post(PostBase, Base):
+class Post(PostBase):
     title = models.CharField(max_length=128)
     content = models.TextField(max_length=255, blank=True)
     img = models.ImageField(upload_to='posts', blank=True) 
@@ -28,11 +38,13 @@ class Post(PostBase, Base):
     tags = models.ManyToManyField(Tag, blank=True)
     section = models.ForeignKey(Section, on_delete=models.SET_DEFAULT, default=Section.get_default_section) # If deleted section, then set default
     post_type = models.ForeignKey(PostType, on_delete=models.SET_DEFAULT, default=PostType.get_default_type) # To MODIFY in MODEL, if is a question or advice, etc
-    rate = models.BigIntegerField(default=0) # number of votes for this post
+    approval_status = models.ForeignKey(ApprovalStatus, on_delete=models.SET_DEFAULT, default=ApprovalStatus.get_default_status)
+    likes_count = models.BigIntegerField(default=0)
+    dislikes_count = models.BigIntegerField(default=0)
     slug = models.SlugField(max_length=64, unique=True, editable=False) # slug for links
     
     class Meta:
-        ordering = ['-rate']
+        ordering = ['-likes_count']
         
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
