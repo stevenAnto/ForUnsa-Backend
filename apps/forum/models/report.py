@@ -10,7 +10,7 @@ class ReportType(Base):
         ordering = ['name']
         
     def get_default_type():
-        return ReportType.objects.get_or_create(name="Default report type", id="1")[0]
+        return ReportType.objects.get_or_create(name="Default report type", id="1")[0].id
 
 class Report(Base):
     post = models.ForeignKey(PostBase, on_delete=models.CASCADE)
