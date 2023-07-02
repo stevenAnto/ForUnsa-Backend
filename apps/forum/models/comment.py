@@ -1,5 +1,4 @@
 from django.db import models
-from . import Base
 from .post import PostBase
 
 class Comment(PostBase):
