@@ -6,7 +6,7 @@ from . import Base, School
 
 class CustomUser(User, Base):
     # id, name, last_name, email, nickname, is_admin, is_staff included on User
-    current_school = models.ForeignKey(School, on_delete=models.SET(School.get_default_school))  # School of the user e.g. System Engineering
+    current_school = models.ForeignKey(School, on_delete=models.SET(School.get_default_school), default=School.get_default_school)  # School of the user e.g. System Engineering
     biography = models.CharField(max_length=255, blank=True)  # description of user
     img = models.ImageField(upload_to='profiles', default='profiles/default.jpg', validators=[MaxWeightValidator(2)])
     is_featured = models.BooleanField(default=False)  # user is featured

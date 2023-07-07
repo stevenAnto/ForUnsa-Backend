@@ -11,7 +11,7 @@ class School(Base):
         ordering = ['name']
     
     def get_default_school():
-        return School.objects.get_or_create(name='Not defined school')[0]
+        return School.objects.get_or_create(name='Not defined school', id=1)[0]
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
