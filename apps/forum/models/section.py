@@ -4,6 +4,7 @@ from . import Base
 
 class Section(Base):
     name = models.CharField(max_length=64, unique=True)
+    posts_count = models.BigIntegerField(default=0)
     slug = models.SlugField(max_length=64, unique=True, editable=False) # slug for links
     
     class Meta:
