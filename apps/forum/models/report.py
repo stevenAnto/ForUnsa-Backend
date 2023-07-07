@@ -15,8 +15,8 @@ class ReportType(Base):
 class Report(Base):
     post = models.ForeignKey(PostBase, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    information = models.TextField(max_length=1024)
-    report_tyoe = models.ForeignKey(ReportType, on_delete=models.SET_DEFAULT, default=ReportType.get_default_type)
+    information = models.TextField(max_length=255)
+    report_type = models.ForeignKey(ReportType, on_delete=models.SET_DEFAULT, default=ReportType.get_default_type)
     created_at = models.DateTimeField(auto_now_add=True)
     # slug = models.SlugField(max_length=64, unique=True) # slug for links, removed for requirements
     
