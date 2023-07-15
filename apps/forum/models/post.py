@@ -42,10 +42,11 @@ class Post(PostBase):
             
         self.slug = slugify(self.title)
         # if have value on img then save with post type social if have value on file then save with post type bibliograpy resource, if don't value on both then social post type
-        self.post_type = PostType.objects.get_or_create(name='Social', id='1')[0]
+        self.post_type = PostType.objects.get_or_create(name='Social')[0]
         if self.file:
             self.post_type = PostType.objects.get_or_create(name='Bibliography resource')[0]
         if not self.pk:
             self.section.posts_count += 1
+            self.section.save()
         super(Post, self).save(*args, **kwargs)
     

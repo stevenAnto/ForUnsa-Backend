@@ -11,11 +11,11 @@ class Section(Base):
         ordering = ['name']
         
     def get_default_section():
-        return Section.objects.get_or_create(name='No Section')[0]
+        return Section.objects.get_or_create(name='General')[0]
     
     def get_custom_section(user):
         if not hasattr(user, 'current_school'):
-            return None
+            return Section.get_default_section
         sections = user.school.section_set.all()
         if sections.exists():
             return sections.first()
