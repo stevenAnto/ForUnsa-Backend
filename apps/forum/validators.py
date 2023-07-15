@@ -6,4 +6,4 @@ class MaxWeightValidator:
 
     def __call__(self, value):
         if value.size > self.max_weight * 1024 * 1024:
-            raise ValidationError(f"File weight should not exceed {self.max_weight} bytes.")
+            raise ValidationError(f"File weight should not exceed {self.max_weight} MB.")
