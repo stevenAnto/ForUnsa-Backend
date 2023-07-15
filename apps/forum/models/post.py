@@ -1,15 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.core.validators import FileExtensionValidator
 from . import Base, Tag, Section
-from .custom_user import CustomUser
-
-
-class PostBase(Base):
-    user = models.ForeignKey(User, on_delete=models.SET(CustomUser.get_deleted_user)) # if User deleted set certain User
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
+from .post_base import PostBase
 
 class PostType(Base):
     name = models.CharField(max_length=64, unique=True) # I mean is a question or advice or general information
@@ -33,8 +26,8 @@ class ApprovalStatus(Base):
 class Post(PostBase):
     title = models.CharField(max_length=128)
     content = models.TextField(max_length=255, blank=True)
-    img = models.ImageField(upload_to='posts', blank=True) 
-    file = models.FileField(upload_to='posts', blank=True)
+    img = models.ImageField(upload_to='posts', blank=True, validators=[])
+    file = models.FileField(upload_to='posts', blank=True, validators=[FileExtensionValidator(['pdf', 'doc','docx'])])
     tags = models.ManyToManyField(Tag, blank=True)
     section = models.ForeignKey(Section, on_delete=models.SET_DEFAULT, default=Section.get_default_section) # If deleted section, then set default
     post_type = models.ForeignKey(PostType, on_delete=models.SET_DEFAULT, default=PostType.get_default_type) # To MODIFY in MODEL, if is a question or advice, etc
