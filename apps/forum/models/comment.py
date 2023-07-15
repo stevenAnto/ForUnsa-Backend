@@ -2,7 +2,7 @@ from django.db import models
 from . import Base
 from .post import PostBase
 
-class Comment(PostBase, Base):
+class Comment(PostBase):
     posted_on = models.ForeignKey(PostBase, related_name='posted_on_%(class)s', on_delete=models.CASCADE) # it should be consider another comment too
     content = models.TextField(max_length=255)
     likes_count = models.BigIntegerField(default=0)
