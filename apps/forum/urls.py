@@ -1,4 +1,5 @@
 from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
 from rest_framework import routers
 from .views import CommentViewSet, CustomUserViewSet, PostViewSet, PostTypeViewSet, ApprovalStatusViewSet, ReacPostViewSet, ReactionViewSet, ReportViewSet, ReportTypeViewSet, SavePostViewSet, SchoolViewSet, SectionViewSet, TagViewSet
 
@@ -18,5 +19,7 @@ router.register(r'section', SectionViewSet, 'section')
 router.register(r'tag', TagViewSet, 'tag')
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('api/v1/', include(router.urls)), # Api versioning rules
+    path('docs/', include_docs_urls(title='ForUnsa documentation')),
 ]
