@@ -20,6 +20,6 @@ router.register(r'tag', TagViewSet, 'tag')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api/v1/', include(router.urls)), # Api versioning rules
+    # path('api/v1/', include(router.urls)), # Api versioning rules
     path('docs/', include_docs_urls(title='ForUnsa documentation')),
 ]
