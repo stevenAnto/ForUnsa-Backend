@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import FileExtensionValidator
-from apps.forum import MaxWeightValidator
+from apps.forum.validators import MaxWeightValidator
 from . import Base, Tag, Section
 from .post_base import PostBase
 
