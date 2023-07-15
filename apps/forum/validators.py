@@ -7,3 +7,9 @@ class MaxWeightValidator:
     def __call__(self, value):
         if value.size > self.max_weight * 1024 * 1024:
             raise ValidationError(f"File weight should not exceed {self.max_weight} MB.")
+        
+    def deconstruct(self): # Required for no problems with serializers (post and customUser)
+        path = 'apps.forum.validators.MaxWeightValidator'
+        args = (self.max_weight,)
+        kwargs = {}  # Additional keyword arguments, if any
+        return path, args, kwargs

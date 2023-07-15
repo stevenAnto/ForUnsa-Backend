@@ -12,7 +12,7 @@ class PostType(Base):
         ordering = ['name']
         
     def get_default_type():
-        return PostType.objects.get_or_create(name='Default type')[0].id
+        return PostType.objects.get_or_create(name='Social', id='1')[0].id
     
 class ApprovalStatus(Base):
     name = models.CharField(max_length=64, unique=True)
@@ -27,14 +27,15 @@ class ApprovalStatus(Base):
 class Post(PostBase):
     title = models.CharField(max_length=128)
     content = models.TextField(max_length=255, blank=True)
-    img = models.ImageField(upload_to='posts', blank=True, validators=[MaxWeightValidator(10)])
+    img = models.ImageField(upload_to='posts', blank=True, validators=[MaxWeightValidator(2)])
     file = models.FileField(upload_to='posts', blank=True, validators=[FileExtensionValidator(['pdf', 'doc','docx'])])
     tags = models.ManyToManyField(Tag, blank=True)
     section = models.ForeignKey(Section, on_delete=models.SET_DEFAULT, default=Section.get_default_section) # If deleted section, then set default
-    post_type = models.ForeignKey(PostType, on_delete=models.SET_DEFAULT, default=PostType.get_default_type) # To MODIFY in MODEL, if is a question or advice, etc
+    post_type = models.ForeignKey(PostType, on_delete=models.SET_DEFAULT, default=PostType.get_default_type) # To MODIFY in MODEL, if is a blbliography resource or question(like social), etc
     approval_status = models.ForeignKey(ApprovalStatus, on_delete=models.SET_DEFAULT, default=ApprovalStatus.get_default_status)
     likes_count = models.BigIntegerField(default=0)
     dislikes_count = models.BigIntegerField(default=0)
+    comments_count = models.BigIntegerField(default=0)
     slug = models.SlugField(max_length=64, unique=True, editable=False) # slug for links
     
     class Meta:
@@ -42,5 +43,9 @@ class Post(PostBase):
         
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
+        # if have value on img then save with post type social if have value on file then save with post type bibliograpy resource, if don't value on both then social post type
+        self.post_type = PostType.objects.get_or_create(name='Social', id='1')[0]
+        if self.file:
+            self.post_type = PostType.objects.get_or_create(name='Bibliography resource', id='2')[0]
         super(Post, self).save(*args, **kwargs)
     
