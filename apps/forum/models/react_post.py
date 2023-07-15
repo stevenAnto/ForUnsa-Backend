@@ -32,21 +32,21 @@ class ReactPost(Base):
                 raise e
     
     def add_reacts(self):
-        if self.post_reaction.id == 1:
+        if self.post_reaction.name == "Like reaction":
             self.post.likes_count += 1
             self.post.save()
         
-        if self.post_reaction.id == 2:
+        if self.post_reaction.name == "Dislike reaction":
             self.post.dislikes_count += 1
             self.post.save()
     
     def remove_reacts(self):
-        if self.post_reaction.id == 1:
+        if self.post_reaction.name == "Like reaction":
             self.post.dislikes_count -= 1
             self.post.likes_count += 1
             self.post.save()
         
-        if self.post_reaction.id == 2:
+        if self.post_reaction.name == "Dislike reaction":
             self.post.likes_count -= 1
             self.post.dislikes_count += 1
             self.post.save()
