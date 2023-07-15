@@ -30,13 +30,13 @@ class Post(PostBase):
     img = models.ImageField(upload_to='posts', blank=True, validators=[MaxWeightValidator(2)])
     file = models.FileField(upload_to='posts', blank=True, validators=[FileExtensionValidator(['pdf', 'doc','docx'])])
     tags = models.ManyToManyField(Tag, blank=True)
-    section = models.ForeignKey(Section, on_delete=models.SET_DEFAULT, default=Section.get_default_section) # If deleted section, then set default
+    section = models.ForeignKey(Section, on_delete=models.SET(Section.get_default_section), default=Section.get_custom_section(PostBase.user)) # If deleted section, then set default
     post_type = models.ForeignKey(PostType, on_delete=models.SET_DEFAULT, default=PostType.get_default_type) # To MODIFY in MODEL, if is a blbliography resource or question(like social), etc
     approval_status = models.ForeignKey(ApprovalStatus, on_delete=models.SET_DEFAULT, default=ApprovalStatus.get_default_status)
     likes_count = models.BigIntegerField(default=0)
     dislikes_count = models.BigIntegerField(default=0)
     comments_count = models.BigIntegerField(default=0)
-    slug = models.SlugField(max_length=64, unique=True, editable=False) # slug for links
+    slug = models.SlugField(max_length=64, editable=False) # slug for links
     
     class Meta:
         ordering = ['-likes_count']

@@ -13,6 +13,13 @@ class Section(Base):
     def get_default_section():
         return Section.objects.get_or_create(name='No Section')[0]
     
+    def get_custom_section(user):
+        if not hasattr(user, 'current_school'):
+            return None
+        sections = user.school.section_set.all()
+        if sections.exists():
+            return sections.first()
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Section, self).save(*args, **kwargs)
