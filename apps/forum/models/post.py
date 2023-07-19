@@ -28,7 +28,7 @@ class Post(PostBase):
     title = models.CharField(max_length=128)
     content = models.TextField(max_length=255, blank=True)
     img = models.ImageField(upload_to='posts', blank=True, validators=[MaxWeightValidator(2)])
-    file = models.FileField(upload_to='posts', blank=True, validators=[FileExtensionValidator(['pdf', 'doc','docx'])])
+    file = models.FileField(upload_to='docs', blank=True, validators=[FileExtensionValidator(['pdf', 'doc','docx'])])
     tags = models.ManyToManyField(Tag, blank=True)
     section = models.ForeignKey(Section, on_delete=models.SET(Section.get_default_section), default=Section.get_custom_section(PostBase.user)) # If deleted section, then set default
     post_type = models.ForeignKey(PostType, on_delete=models.SET_DEFAULT, default=PostType.get_default_type) # To MODIFY in MODEL, if is a blbliography resource or question(like social), etc
@@ -43,7 +43,7 @@ class Post(PostBase):
         # if have value on img then save with post type social if have value on file then save with post type bibliograpy resource, if don't value on both then social post type
         self.post_type = PostType.objects.get_or_create(name='Social')[0]
         if self.file:
-            self.post_type = PostType.objects.get_or_create(name='Bibliography resource')[0]
+            self.post_type = PostType.objects.get_or_create(name='Resources')[0]
         if not self.pk:
             self.section.posts_count += 1
             self.section.save()
