@@ -11,6 +11,8 @@ class CustomUser(User, Base):
     img = models.ImageField(upload_to='profiles', default='profiles/default.jpg', validators=[MaxWeightValidator(2)])
     is_featured = models.BooleanField(default=False)  # user is featured
     semester = models.CharField(max_length=32, default='not defined')  # inital semester
+    registration_code = models.CharField(max_length=8, blank=True, null=True)
+    registration_completed = models.BooleanField(default=False)
     slug = models.SlugField(max_length=64, unique=True,editable=False)  # slug for links
 
     def get_deleted_user():

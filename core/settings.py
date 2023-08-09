@@ -62,8 +62,12 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-ROOT_URLCONF = 'core.urls'
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+]
 
+ROOT_URLCONF = 'core.urls'
+    
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -147,3 +151,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+
+# Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMIAL_PORT = 587
+EMAIL_HOST_USER = 'forunsaapp@gmail.com'
+EMAIL_HOST_PASSWORD = 'zvgwjafdikwsvhyx'
+EMAIL_USE_TLS = True
+EMAIL_USER_SSL =  False
