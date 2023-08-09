@@ -101,10 +101,6 @@ def register_user(request):
             # Generate and assign a registration code
             registration_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
             user.registration_code = registration_code
-            user.current_school = School.get_default_school()
-            user.registration_completed = False
-            
-            user.is_logued = False
             user.save()
             # Email
             recipient = user.email
