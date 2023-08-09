@@ -10,9 +10,24 @@ class Comment(PostBase):
         ordering = ['-likes_count']
     
     def save(self, *args, **kwargs):
-        if not self.pk:
-            self.section = self.posted_on.section
+        instance = self
+        try:
+            original_instance = Comment.objects.get(pk=instance.pk)
+        except Comment.DoesNotExist:
+            # Instance does not exist yet
+            # self.section = self.posted_on.section
             self.posted_on.comments_count += 1
             self.posted_on.save()
+            
+            super().save()
+            return
+
+        if original_instance.state == 'A':
+            if instance.state == 'X':
+                self.posted_on.comments_count -= 1
+        if original_instance.state == 'X':
+            if instance.state == 'A':
+                self.posted_on.comments_count += 1
+                
         super(Comment, self).save(*args, **kwargs)
     
