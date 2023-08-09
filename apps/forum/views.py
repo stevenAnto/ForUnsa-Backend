@@ -80,12 +80,11 @@ def login_user(request):
         password = data.get('password')
         print(email)
         print(password)
-
         try:
             user = CustomUser.objects.get(email=email, password=password)
             user.is_logued = True
             user.save()
-            return Response({'message': 'Inicio de sesion exitoso.'})
+            return Response({'email': email})
         except CustomUser.DoesNotExist:
             return Response({'message': 'Invalid email or password.'}, status=400)
 
