@@ -12,10 +12,6 @@ from .models.tag import Tag
 from .serializers import CommentSerializer, CustomUserSerializer, PostSerializer, PostTypeSerializer, ApprovalStatusSerializer, ReactPostSerializer, ReactionSerializer, ReportSerializer, ReportTypeSerializer, SavePostSerializer, SchoolSerializer, SectionSerializer, TagSerializer
 from django.core.mail import send_mail
 from django.http import JsonResponse
-from rest_framework.decorators import permission_classes, authentication_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
@@ -77,23 +73,46 @@ class TagViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['POST'])
-def register_user(request):
-    serializer = CustomUserSerializer(data=request.data)
-    print(serializer)
-    if serializer.is_valid():
-        user = serializer.save()
-        # Generate and assign a registration code
-        registration_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-        user.registration_code = registration_code
-        user.save()
-        # Email
-        recipient = user.email
-        subject = "Registro Exitoso"
-        message = "Hola {}, ¡Bienvenido a la comunidad de ForUnsa!\nCódigo de Verificación: {}".format(user.username,registration_code)
-        send_mail(subject, message, 'forunsaapp@gmail.com', [recipient])
+def login_user(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        password = data.get('password')
+        print(email)
+        print(password)
 
-        return Response({'registration_code': registration_code})
-    return Response(serializer.errors, status=400)
+        try:
+            user = CustomUser.objects.get(email=email, password=password)
+            user.is_logued = True
+            user.save()
+            return Response({'message': 'Inicio de sesion exitoso.'})
+        except CustomUser.DoesNotExist:
+            return Response({'message': 'Invalid email or password.'}, status=400)
+
+@api_view(['POST'])
+def register_user(request):
+    email = json.loads(request.body).get('email')
+    if CustomUser.objects.filter(email=email).first() is not None:
+        return Response({'is_email': 1})
+    else: 
+        serializer = CustomUserSerializer(data=request.data, partial=True)
+        if serializer.is_valid():
+            user = serializer.save()
+            # Generate and assign a registration code
+            registration_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+            user.registration_code = registration_code
+            user.current_school = School.get_default_school()
+            user.registration_completed = False
+            
+            user.is_logued = False
+            user.save()
+            # Email
+            recipient = user.email
+            subject = "Registro Exitoso"
+            message = "Hola {}, ¡Bienvenido a la comunidad de ForUnsa!\nCódigo de Verificación: {}".format(user.username,registration_code)
+            send_mail(subject, message, 'forunsaapp@gmail.com', [recipient])
+            return Response({'is_email': 0})
+        return Response(serializer.errors, status=400)
 
 @api_view(['POST'])
 def complete_registration(request):
@@ -109,7 +128,7 @@ def complete_registration(request):
     except CustomUser.DoesNotExist:
         return Response({'message': 'Invalid email or registration code.'}, status=400)
 
-@csrf_exempt
+"""@csrf_exempt
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def email(request):
@@ -124,4 +143,4 @@ def email(request):
         except Exception as e:
             return JsonResponse({'message': f'Error: {str(e)}'}, status=500)
 
-    return JsonResponse({'message': 'Invalid request method.'}, status=400)
+    return JsonResponse({'message': 'Invalid request method.'}, status=400)"""

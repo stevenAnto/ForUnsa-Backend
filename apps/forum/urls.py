@@ -2,9 +2,11 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework import routers
 from .views import CommentViewSet, CustomUserViewSet, PostViewSet, PostTypeViewSet, ApprovalStatusViewSet, ReacPostViewSet, ReactionViewSet, ReportViewSet, ReportTypeViewSet, SavePostViewSet, SchoolViewSet, SectionViewSet, TagViewSet
-from .views import email
+"""from .views import email"""
 from .views import register_user
+from .views import login_user
 from .views import complete_registration
+
 router = routers.DefaultRouter()
 router.register(r'comment', CommentViewSet, 'comment')
 router.register(r'user', CustomUserViewSet, 'custom_user')
@@ -24,7 +26,7 @@ urlpatterns = [
     path('', include(router.urls)),
     # path('api/v1/', include(router.urls)), # Api versioning rules
     path('docs/', include_docs_urls(title='ForUnsa documentation')),
-    path('email/', email, name='email'),
+    path('login_user/', login_user, name='login_user'),
     path('register_user/', register_user, name='register_user'),
     path('complete_registration/', complete_registration, name='complete_registration')
 ]

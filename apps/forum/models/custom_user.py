@@ -14,6 +14,7 @@ class CustomUser(User, Base):
     registration_code = models.CharField(max_length=8, blank=True, null=True)
     registration_completed = models.BooleanField(default=False)
     slug = models.SlugField(max_length=64, unique=True,editable=False)  # slug for links
+    is_logued = models.BooleanField(default=False)  # user is logued
 
     def get_deleted_user():
         return CustomUser.objects.get_or_create(username="Deleted", )[0]
