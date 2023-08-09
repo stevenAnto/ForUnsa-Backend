@@ -18,7 +18,9 @@ class ReactPost(Base):
     
     def save(self, *args, **kwargs):
         if not self.pk:
-            self.likes_operation(self)
+            self.add_reacts()
+        elif self.state == 'X':
+            self.remove_reacts()
         try:
             super(ReactPost, self).save(*args, **kwargs)
         except IntegrityError as e:
@@ -32,21 +34,21 @@ class ReactPost(Base):
                 raise e
     
     def add_reacts(self):
-        if self.post_reaction.name == "Like reaction":
+        if self.post_reaction.description == "Like reaction":
             self.post.likes_count += 1
             self.post.save()
         
-        if self.post_reaction.name == "Dislike reaction":
+        if self.post_reaction.description == "Dislike reaction":
             self.post.dislikes_count += 1
             self.post.save()
     
     def remove_reacts(self):
-        if self.post_reaction.name == "Like reaction":
+        if self.post_reaction.description == "Like reaction":
             self.post.dislikes_count -= 1
             self.post.likes_count += 1
             self.post.save()
         
-        if self.post_reaction.name == "Dislike reaction":
+        if self.post_reaction.description == "Dislike reaction":
             self.post.likes_count -= 1
             self.post.dislikes_count += 1
             self.post.save()
