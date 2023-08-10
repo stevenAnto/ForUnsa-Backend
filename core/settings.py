@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 from django.core.management.utils import get_random_secret_key
 from pathlib import Path
+import cloudinary_storage
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'coreapi',
+    'cloudinary',
+    'cloudinary_storage',
     # Project Apps
     'apps.forum',
 ]
@@ -160,3 +163,13 @@ EMAIL_HOST_USER = 'forunsaapp@gmail.com'
 EMAIL_HOST_PASSWORD = 'zvgwjafdikwsvhyx'
 EMAIL_USE_TLS = True
 EMAIL_USER_SSL =  False
+
+
+# Cloudinary set up
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dfxqo2qfa',
+    'API_KEY': '254664553386586',
+    'API_SECRET': 'aMDlPz7p2u_0UgD8BtseaS8j6r0',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
