@@ -74,7 +74,14 @@ CSRF_TRUSTED_ORIGINS = [
         ]
 
 ROOT_URLCONF = 'core.urls'
-
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+]
 TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
