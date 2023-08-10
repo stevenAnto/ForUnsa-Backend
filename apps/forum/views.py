@@ -85,7 +85,7 @@ def login_user(request):
             user = CustomUser.objects.get(email=email, password=password)
             user.is_logued = True
             user.save()
-            print("---> IMPRIMIENDO" + user.id )
+            print("---> IMPRIMIENDO" + str(user.id) )
             return Response({'id': user.id})
         except CustomUser.DoesNotExist:
             print("---> ERROR")
