@@ -88,6 +88,7 @@ def login_user(request):
             print("---> IMPRIMIENDO" + user.id )
             return Response({'id': user.id})
         except CustomUser.DoesNotExist:
+            print("---> ERROR")
             return Response({'message': 'Invalid email or password.'}, status=400)
 
 @api_view(['POST'])
