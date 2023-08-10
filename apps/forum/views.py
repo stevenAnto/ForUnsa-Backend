@@ -85,6 +85,7 @@ def login_user(request):
             user = CustomUser.objects.get(email=email, password=password)
             user.is_logued = True
             user.save()
+            print("---> IMPRIMIENDO" + user.id )
             return Response({'id': user.id})
         except CustomUser.DoesNotExist:
             return Response({'message': 'Invalid email or password.'}, status=400)
