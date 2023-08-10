@@ -65,12 +65,14 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+        'https://stevenanto.github.io/',
         'http://localhost:4200',
         'http://localhost:5173',
         ]
 
 CSRF_TRUSTED_ORIGINS = [
         'http://localhost:5173',
+        'https://stevenanto.github.io/',
         ]
 
 ROOT_URLCONF = 'core.urls'
