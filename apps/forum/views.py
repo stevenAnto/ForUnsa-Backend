@@ -17,6 +17,7 @@ from rest_framework.response import Response
 import json
 import random
 import string
+from postmarker.core import PostmarkClient
 
 # Create your views here.
 class CommentViewSet(viewsets.ModelViewSet):
@@ -102,10 +103,17 @@ def register_user(request):
             user.registration_code = registration_code
             user.save()
             # Email
-            recipient = user.email
+            postmark = PostmarkClient(server_token='e937776b-95a8-4a60-be94-e9c1373aee3f')
+            postmark.emails.send(
+                From='bhanccoco@unsa.edu.pe',
+                To=user.email,
+                Subject='Registro Exitoso',
+                HtmlBody="Hola {}, ¡Bienvenido a la comunidad de ForUnsa!\nCódigo de Verificación: {}".format(user.username,registration_code)
+            )
+            """recipient = user.email
             subject = "Registro Exitoso"
             message = "Hola {}, ¡Bienvenido a la comunidad de ForUnsa!\nCódigo de Verificación: {}".format(user.username,registration_code)
-            send_mail(subject, message, 'forunsaapp@gmail.com', [recipient])
+            send_mail(subject, message, 'forunsaapp@gmail.com', [recipient])"""
             return Response({'is_email': 0})
         return Response(serializer.errors, status=400)
 
