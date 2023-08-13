@@ -67,6 +67,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
         
         'https://for-unsa-front.vercel.app',
+        'https://for-unsa-front.vercel.app/',
         'http://localhost:4200',
         'http://localhost:5173',
         ]
