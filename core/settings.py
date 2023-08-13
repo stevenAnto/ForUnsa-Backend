@@ -67,15 +67,15 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
         
         'https://for-unsa-front.vercel.app',
-        'https://for-unsa-front.vercel.app/',
+        'https://for-unsa-front.vercel.app',
         'http://localhost:4200',
         'http://localhost:5173',
         ]
 
 CSRF_TRUSTED_ORIGINS = [
         'http://localhost:5173',
-        'https://for-unsa-front.vercel.app/',
-        'https://stevenanto.github.io/',
+        'https://for-unsa-front.vercel.app',
+       
         ]
 
 ROOT_URLCONF = 'core.urls'
